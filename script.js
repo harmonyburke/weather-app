@@ -23,9 +23,18 @@ $(document).ready(function(){
             if (data.list.length>0){
                 var allData=data.list[0].main;
                 var temp=allData.temp;
-                var humid=allData.humidity;
-
+                // var for current temperature
                 currentWeather.append($("<h3>").text("Today's Weather:"+ temp + "F"))
+                // this adds the current temperature to the page so the user can see it 
+                var humidity=allData.humidity
+                // var for current humidity
+                currentWeather.append($("<h3>").text("Humidity: "+ humidity + "%"))
+                // adds humidity level to the page
+                var wind=data.list[0].wind.speed
+                // var for current wind
+                currentWeather.append($("<h3>").text("Wind: " + wind + "mph"))
+                // adds wind speed to the page
+
             }       
                 
                         
