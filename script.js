@@ -35,6 +35,8 @@ $(document).ready(function(){
                 currentWeather.append($("<h3>").text("Wind: " + wind + "mph"))
                 // adds wind speed to the page
 
+                // to add 5day forecast- use 1-5 in the list array????
+
             }       
                 
                         
