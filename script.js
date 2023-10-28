@@ -9,83 +9,82 @@ $(document).ready(function () {
 
 
     $("#search-btn").on("click", function () {
+        var cityName = citySearch.val();
         console.log("search button")
         // this function will run when the search button is clicked
-        var cityName = citySearch.val();
         console.log(cityName)
         // searches the 
         if (cityName) {
             weatherData(cityName);
         }
         createHistory(cityName)
+
     })
-    weatherData()
 
 })
-function weatherData(cityName){
-    var weatherApi=`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=9f2db7bcc59386b227ecd49ea3d0414a`
-    // var weatherApi=`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=imperial&appid=9f2db7bcc59386b227ecd49ea3d0414a`
-    console.log(weatherApi) 
-    container.innerHTML = ""
-    forecast.innerHTML = ""
-    fetch(weatherApi)
-    .then(function(response){
-        return response.json()
-        
-        // this pulls the information from the API and returns it to the webpage
-        
+function weatherData(cityName) {
+
+    var cityName = citySearch.val()
+    // var weatherApi=`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=9f2db7bcc59386b227ecd49ea3d0414a`
+    var currWeatherApi = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=imperial&appid=9f2db7bcc59386b227ecd49ea3d0414a`
+    console.log(currWeatherApi)
+    // currentWeather.innerHTML = ""
+    // forecast.innerHTML = ""
+    fetch(currWeatherApi)
+        .then(function (response) {
+            return response.json()
+
+            // this pulls the information from the API and returns it to the webpage
+        })
         .then(function (data) {
             console.log(data);
             // this pulls the specified data from the API
-            currentWeather.empty 
+            currentWeather.empty
             // this clears the page so that mulitple weather point aren't displayed at the same time
-            var lat=data.coord.lat
-            var lon=data.coord.lon
 
-              
-        if (data.main>0){
-            var allData=data.main;
-            var temp=allData.temp;
-            // var for current temperature
-            currentWeather.append($("<h3>").text("Today's Weather:"+ temp + "F"))
-            // this adds the current temperature to the page so the user can see it 
-            var humidity=allData.humidity
-            // var for current humidity
-            currentWeather.append($("<h3>").text("Humidity: "+ humidity + "%"))
-            // adds humidity level to the page
-            var wind=data.list[0].wind.speed
-            // var for current wind
-            currentWeather.append($("<h3>").text("Wind: " + wind + "mph"))
-            // adds wind speed to the page
+            for (var i=1;i<data.list.length;i++){
+                var currData=data.list[1];
+                var temp=currData.main.temp 
+                var humid=currData.main.humidity
+                var wind=currData.wind.speed 
+                // variable for the current weather conditions
+                console.log(temp)
+                currentWeather.append($("<h2>").text("Today's Weather:" + temp +" ^F " + humid +" % " + wind + " MPH " ));
+                // appends the current coniditons to the page asone element
 
-            // to add 5day forecast- use 1-5 in the list array????
+            }
+            var lat = data.city.coord.lat;
+            var lon = data.city.coord.lon;
 
-        }       
-            var forecastAPI=`https://api.openweathermap.org/data/2.5/onecall?lat=` + lat + "&lon=" + lon + "&exclude={part}&units=imperial&appid=f30dc0b71f772a037a522282770190be"
-            
+
+            var forecastAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=` + lat + "&lon=" + lon + "&exclude={part}&units=imperial&appid=f30dc0b71f772a037a522282770190be"
+            console.log(forecastAPI)
+
 
             fetch(forecastAPI)
-            .then(function(response){
-                return response.json()
-            })
-            .then(function(data){
-                console.log(data)
-                for(var i=1; i<6; i++){
-                    var forecastDate=document.createElement("h3")
-                    forecastDate.textContent=dayjs().add(i,"days").format("MM, DD, YYYY")
-                    console.log("here",forecastDate)
-                    forecast.append(forecastDate)
-                    
-                    var forecastTemp=document.createElement("h3")
-                    forecastTemp.textContent="Temp:" + data.daily[i].temp.day
-                    forecast.append(forecastTemp)
-                }
-            })
-                    
-                    
+                .then(function (response) {
+                    return response.json()
+                })
+                .then(function (data) {
+                    console.log(data)
+                    for (var i = 1; i < 6; i++) {
+                        var forecastDate = document.createElement("h3")
+                        forecastDate.textContent = dayjs().add(i, "days").format("MM, DD, YYYY")
+                        console.log("here", forecastDate)
+                        forecast.append(forecastDate)
+
+                        var forecastTemp = document.createElement("h3")
+                        forecastTemp.textContent = "Temp:" + data.daily[i].temp.day
+                        forecast.append(forecastTemp)
+                    }
                 })
         })
-    }
+
+
+
+
+
+}
 
 function createHistory(name) {
     console.log("history", name)
@@ -97,6 +96,7 @@ function createHistory(name) {
     var historyStorage = JSON.parse(localStorage.getItem("saveCity"))
     if (historyStorage === null) {
         historyStorage = []
+        // if there is nothing to save
 
     }
     historyStorage.push(name)
@@ -106,9 +106,11 @@ function createHistory(name) {
         prevCity.textContent = historyStorage[i]
         prevCity.setAttribute("id", historyStorage[i])
         cityHistory.append(prevCity)
+        // creates a button element for the city names in local storage
         prevCity.addEventListener("click", function (event) {
             var cityClick = event.target.id
             weatherData(cityClick)
+            // when you click on that button, it will display the weather again
         })
 
     }
