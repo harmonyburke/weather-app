@@ -3,7 +3,7 @@ var citySearch = $("#city-search")
 var currentWeather = $("#current-weather")
 var forecast = $("#forecast")
 var cityHistory = $("#saved-city")
-var currentDay = dayjs().format("MM, DD, YYYY")
+var currentDay = dayjs().format("MMMM, DD, YYYY")
 $(document).ready(function () {
     // everthing in this function runs on page load and when the given parameters are met
 
@@ -41,14 +41,31 @@ function weatherData(cityName) {
             // this pulls the specified data from the API
             currentWeather.empty
             // this clears the page so that mulitple weather point aren't displayed at the same time
+            var iconData = data.list[1].weather[0].icon;
+            var iconURL=`https://openweathermap.org/img/w/${iconData}.png`
 
-            var currData = data.list[1];
-            var temp = currData.main.temp
-            var humid = currData.main.humidity
-            var wind = currData.wind.speed
-            // variable for the current weather conditions
-            console.log(temp)
-            currentWeather.append($("<h2>").text("Today's Weather:" + temp + " ^F " + humid + " % " + wind + " MPH "));
+           
+            var temp=document.createElement("h2")
+            var humid=document.createElement("h2")
+            var wind=document.createElement("h2")
+            var todayIcon=document.createElement("img")
+            var todayDate=document.createElement("h2")
+            todayDate.textContent=dayjs().format("MMMM, DD, YYYY")
+
+            temp.textContent="Today's Temperature:" + data.list[1].main.temp + "°F"
+            humid.textContent="Humidity" + data.list[1].main.humidity + "%"
+            wind.textContent="Wind Speed:" +data.list[1].wind.speed+ "MPH" 
+            todayIcon.setAttribute("src", iconURL)
+
+     
+
+            currentWeather.append(todayDate)
+            currentWeather.append(temp)
+            currentWeather.append(humid)
+            currentWeather.append(wind)
+            currentWeather.append(todayIcon)
+           
+            // currentWeather.append($("<h2>").text("Today's Weather:" + temp + " °F " + humid + " % " + wind + " MPH "));
             // appends the current coniditons to the page asone element
 
 
@@ -68,13 +85,23 @@ function weatherData(cityName) {
                     console.log(data)
                     for (var i = 1; i < 6; i++) {
                         var forecastDate = document.createElement("h3")
-                        forecastDate.textContent = dayjs().add(i, "days").format("MM, DD, YYYY")
+                        forecastDate.textContent = dayjs().add(i, "days").format("MMMM, DD, YYYY")
                         console.log("here", forecastDate)
                         forecast.append(forecastDate)
 
                         var forecastTemp = document.createElement("h3")
-                        forecastTemp.textContent = "Temp:" + data.daily[i].temp.day
+                        forecastTemp.textContent = "Temp:" + data.daily[i].temp.day + "°F"
+                        var forecastWind=document.createElement("h3")
+                        forecastWind.textContent="Wind:" + data.daily[i].wind_speed + "MPH"
+                        var forecastHumid=document.createElement("h3")
+                        forecastHumid.textContent="Humidity: " +data.daily[i].humidity + "%"
+                        var icon=document.createElement("img")
+                        icon.setAttribute("src", iconURL)
+
                         forecast.append(forecastTemp)
+                        forecast.append(forecastWind)
+                        forecast.append(forecastHumid)
+                        forecast.append(icon)
                     }
                 })
         })
