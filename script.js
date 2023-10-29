@@ -25,7 +25,7 @@ $(document).ready(function () {
 function weatherData(cityName) {
 
     var cityName = citySearch.val()
-    // var weatherApi=`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=9f2db7bcc59386b227ecd49ea3d0414a`
+
     var currWeatherApi = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=imperial&appid=9f2db7bcc59386b227ecd49ea3d0414a`
     console.log(currWeatherApi)
     // currentWeather.innerHTML = ""
@@ -42,17 +42,16 @@ function weatherData(cityName) {
             currentWeather.empty
             // this clears the page so that mulitple weather point aren't displayed at the same time
 
-            for (var i=1;i<data.list.length;i++){
-                var currData=data.list[1];
-                var temp=currData.main.temp 
-                var humid=currData.main.humidity
-                var wind=currData.wind.speed 
-                // variable for the current weather conditions
-                console.log(temp)
-                currentWeather.append($("<h2>").text("Today's Weather:" + temp +" ^F " + humid +" % " + wind + " MPH " ));
-                // appends the current coniditons to the page asone element
+            var currData = data.list[1];
+            var temp = currData.main.temp
+            var humid = currData.main.humidity
+            var wind = currData.wind.speed
+            // variable for the current weather conditions
+            console.log(temp)
+            currentWeather.append($("<h2>").text("Today's Weather:" + temp + " ^F " + humid + " % " + wind + " MPH "));
+            // appends the current coniditons to the page asone element
 
-            }
+
             var lat = data.city.coord.lat;
             var lon = data.city.coord.lon;
 

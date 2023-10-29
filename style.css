@@ -1,0 +1,55 @@
+body{
+    background-color:#C5FFFD;
+    font-family: 'DM', serif ;
+}
+
+#title{
+    font-size: 60px;
+    color:#C5FFFD;
+    background-color: #003049;
+    display: flex;
+    justify-content: center;
+}
+ #search-area{
+    display: flex;
+   flex-direction: column;
+   align-items: flex-start;
+
+ }
+
+ #city-search{
+    size:40px;
+
+ }
+
+ #search-btn{
+    size:40px;
+    display:flex;
+    justify-content: center;
+    margin-top:10px
+ }
+
+ #weather-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+ }
+ #current-weather{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+ }
+
+ #forecast{
+    display: flex;
+    justify-content: center;
+    
+ }
+
+ #saved-city{
+    size:40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+ }
