@@ -28,8 +28,8 @@ function weatherData(cityName) {
 
     var currWeatherApi = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=imperial&appid=9f2db7bcc59386b227ecd49ea3d0414a`
     console.log(currWeatherApi)
-    // currentWeather.innerHTML = ""
-    // forecast.innerHTML = ""
+    currentWeather.innerHTML = ""
+    forecast.innerHTML = ""
     fetch(currWeatherApi)
         .then(function (response) {
             return response.json()
@@ -39,7 +39,7 @@ function weatherData(cityName) {
         .then(function (data) {
             console.log(data);
             // this pulls the specified data from the API
-            currentWeather.empty
+            currentWeather.empty()
             // this clears the page so that mulitple weather point aren't displayed at the same time
             var iconData = data.list[1].weather[0].icon;
             var iconURL=`https://openweathermap.org/img/w/${iconData}.png`
@@ -83,6 +83,8 @@ function weatherData(cityName) {
                 })
                 .then(function (data) {
                     console.log(data)
+
+                    forecast.empty()
                     for (var i = 1; i < 6; i++) {
                         var forecastDate = document.createElement("h3")
                         forecastDate.textContent = dayjs().add(i, "days").format("MMMM, DD, YYYY")
