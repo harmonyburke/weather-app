@@ -50,20 +50,16 @@ function weatherData(cityName) {
             var wind=document.createElement("h2")
             var todayIcon=document.createElement("img")
             var todayDate=document.createElement("h2")
-            var todayTitle=document.createElement("h1")
             todayDate.textContent=dayjs().format("MMMM, DD, YYYY")
 
-
-            todayTitle.textContent="Today's Weather:"
-            temp.textContent= "Temperature: " + data.list[1].main.temp + "°F"
-            humid.textContent="Humidity: " + data.list[1].main.humidity + "%"
-            wind.textContent="Wind Speed: " +data.list[1].wind.speed+ "MPH" 
+            temp.textContent="Today's Temperature:" + data.list[1].main.temp + "°F"
+            humid.textContent="Humidity" + data.list[1].main.humidity + "%"
+            wind.textContent="Wind Speed:" +data.list[1].wind.speed+ "MPH" 
             todayIcon.setAttribute("src", iconURL)
 
      
 
             currentWeather.append(todayDate)
-            currentWeather.append(todayTitle)
             currentWeather.append(temp)
             currentWeather.append(humid)
             currentWeather.append(wind)
@@ -96,11 +92,11 @@ function weatherData(cityName) {
                         forecast.append(forecastDate)
 
                         var forecastTemp = document.createElement("h3")
-                        forecastTemp.textContent = "Temp: " + data.daily[i].temp.day + "°F"
+                        forecastTemp.textContent = "Temp:" + data.daily[i].temp.day + "°F"
                         var forecastWind=document.createElement("h3")
-                        forecastWind.textContent="Wind: " + data.daily[i].wind_speed + "MPH"
+                        forecastWind.textContent="Wind:" + data.daily[i].wind_speed + "MPH"
                         var forecastHumid=document.createElement("h3")
-                        forecastHumid.textContent="Humidity:  " +data.daily[i].humidity + "%"
+                        forecastHumid.textContent="Humidity: " +data.daily[i].humidity + "%"
                         var icon=document.createElement("img")
                         icon.setAttribute("src", iconURL)
 
@@ -133,7 +129,7 @@ function createHistory(name) {
     }
     historyStorage.push(name)
     localStorage.setItem("saveCity", JSON.stringify(historyStorage))
-    for (var i = 0; i < historyStorage.length; i+5) {
+    for (var i = 0; i < historyStorage.length; i++) {
         var prevCity = document.createElement("button")
         prevCity.textContent = historyStorage[i]
         prevCity.setAttribute("id", historyStorage[i])
