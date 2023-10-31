@@ -4,6 +4,8 @@
 
 This application is meant to help the user stay informed on the current weather as well as the 5-day weather forecast in the city of their choosing.
 
+![Alt Text](<images\06-01.png>)
+![Alt Text](<images\06-02.png>)
 
 
 ## Installation

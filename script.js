@@ -42,29 +42,29 @@ function weatherData(cityName) {
             currentWeather.empty()
             // this clears the page so that mulitple weather point aren't displayed at the same time
             var iconData = data.list[1].weather[0].icon;
-            var iconURL=`https://openweathermap.org/img/w/${iconData}.png`
+            var iconURL = `https://openweathermap.org/img/w/${iconData}.png`
 
-           
-            var temp=document.createElement("h2")
-            var humid=document.createElement("h2")
-            var wind=document.createElement("h2")
-            var todayIcon=document.createElement("img")
-            var todayDate=document.createElement("h2")
-            todayDate.textContent=dayjs().format("MMMM, DD, YYYY")
 
-            temp.textContent="Today's Temperature:" + data.list[1].main.temp + "°F"
-            humid.textContent="Humidity" + data.list[1].main.humidity + "%"
-            wind.textContent="Wind Speed:" +data.list[1].wind.speed+ "MPH" 
+            var temp = document.createElement("h2")
+            var humid = document.createElement("h2")
+            var wind = document.createElement("h2")
+            var todayIcon = document.createElement("img")
+            var todayDate = document.createElement("h2")
+            todayDate.textContent = dayjs().format("MMMM, DD, YYYY")
+
+            temp.textContent = "Today's Temperature:" + data.list[1].main.temp + "°F"
+            humid.textContent = "Humidity" + data.list[1].main.humidity + "%"
+            wind.textContent = "Wind Speed:" + data.list[1].wind.speed + "MPH"
             todayIcon.setAttribute("src", iconURL)
 
-     
+
 
             currentWeather.append(todayDate)
             currentWeather.append(temp)
             currentWeather.append(humid)
             currentWeather.append(wind)
             currentWeather.append(todayIcon)
-           
+
             // currentWeather.append($("<h2>").text("Today's Weather:" + temp + " °F " + humid + " % " + wind + " MPH "));
             // appends the current coniditons to the page asone element
 
@@ -93,11 +93,11 @@ function weatherData(cityName) {
 
                         var forecastTemp = document.createElement("h3")
                         forecastTemp.textContent = "Temp:" + data.daily[i].temp.day + "°F"
-                        var forecastWind=document.createElement("h3")
-                        forecastWind.textContent="Wind:" + data.daily[i].wind_speed + "MPH"
-                        var forecastHumid=document.createElement("h3")
-                        forecastHumid.textContent="Humidity: " +data.daily[i].humidity + "%"
-                        var icon=document.createElement("img")
+                        var forecastWind = document.createElement("h3")
+                        forecastWind.textContent = "Wind:" + data.daily[i].wind_speed + "MPH"
+                        var forecastHumid = document.createElement("h3")
+                        forecastHumid.textContent = "Humidity: " + data.daily[i].humidity + "%"
+                        var icon = document.createElement("img")
                         icon.setAttribute("src", iconURL)
 
                         forecast.append(forecastTemp)
@@ -117,32 +117,36 @@ function weatherData(cityName) {
 function createHistory(name) {
     console.log("history", name)
     if (name === "") {
-        alert("Please enter a valid city")
+        alert("Please enter a valid city");
         // invoke function to get current history
-        return
+        return;
     }
-    var historyStorage = JSON.parse(localStorage.getItem("saveCity"))
+    var historyStorage = JSON.parse(localStorage.getItem("saveCity"));
     if (historyStorage === null) {
-        historyStorage = []
+        historyStorage = [];
         // if there is nothing to save
-
-    }
-    historyStorage.push(name)
-    localStorage.setItem("saveCity", JSON.stringify(historyStorage))
-    for (var i = 0; i < historyStorage.length; i++) {
-        var prevCity = document.createElement("button")
-        prevCity.textContent = historyStorage[i]
-        prevCity.setAttribute("id", historyStorage[i])
-        cityHistory.append(prevCity)
-        // creates a button element for the city names in local storage
-        prevCity.addEventListener("click", function (event) {
-            var cityClick = event.target.id
-            weatherData(cityClick)
-            // when you click on that button, it will display the weather again
-        })
-
     }
 
+    // Check if the city name already exists in historyStorage
+    if (historyStorage.indexOf(name) === -1) {
+        historyStorage.push(name);
+        localStorage.setItem("saveCity", JSON.stringify(historyStorage));
+        
+        // Clear the cityHistory container and recreate all buttons
+        cityHistory.innerHTML = "";
+        for (var i = 0; i < historyStorage.length; i++) {
+            var prevCity = document.createElement("button");
+            prevCity.textContent = historyStorage[i];
+            prevCity.setAttribute("id", historyStorage[i]);
+            cityHistory.append(prevCity);
+            // creates a button element for the city names in local storage
+            prevCity.addEventListener("click", function (event) {
+                var cityClick = event.target.id;
+                weatherData(cityClick);
+                // when you click on that button, it will display the weather again
+            });
+        }
+    }
 }
 
 
