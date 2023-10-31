@@ -9,7 +9,7 @@ This application is meant to help the user stay informed on the current weather 
 
 
 ## Installation
-Visit this webpage at ...
+Visit this webpage at https://harmonyburke.github.io/weather-app/ 
 
 ## Usage
 
